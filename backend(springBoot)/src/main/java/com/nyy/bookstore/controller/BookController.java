@@ -24,8 +24,23 @@ public class BookController {
 
     @CrossOrigin
     @PostMapping(path="/addBook")
-    public String addBooktoStore(@RequestBody Book book)
+    public String addBooktoStore(@RequestBody Book bookModel)
     {
-        return bookService.addBook(book);
+        return bookService.addBook(bookModel);
     }
+
+    @CrossOrigin
+    @PostMapping(path="/updateBook")
+    public String updateBookDetail(@RequestBody Book bookModel)
+    {
+            return bookService.updateBook(bookModel);
+    }
+
+    @CrossOrigin
+    @PostMapping(path="/deleteBook/{bookId}")
+    public String deleteBookById(@RequestParam(name="bookId") int bookId )
+    {
+        return bookService.deleteBook(bookId);
+    }
+
 }

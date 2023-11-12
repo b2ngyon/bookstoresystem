@@ -4,6 +4,7 @@ import com.nyy.bookstore.entity.Book;
 import com.nyy.bookstore.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -37,6 +38,55 @@ public class BookService {
        return "Book not added to store!";
     }
 
+    public String updateBook(Book bookModel)
+    {
+        Book getBook = bookRepository.findById(bookModel.getBookId()).get();
+
+        if(getBook==null)
+        {
+            return "Book not exists, Use Add Book function to added in store";
+        }
+
+        getBook.setBookType(checkNull(getBook.getBookType(),bookModel.getBookType()));
+        getBook.setBookTitle(checkNull(getBook.getBookTitle(),bookModel.getBookTitle()));
+        getBook.setAuthor(checkNull(getBook.getAuthor(),bookModel.getAuthor()));
+        getBook.setDescription(checkNull(getBook.getDescription(),bookModel.getDescription()));
+
+        bookRepository.save(getBook);
+        return "Update Complete";
+    }
+
+    public String deleteBook(int bookId)
+    {
+        String msg = null;
+        Book book = bookRepository.findById(bookId).get();
+
+        if(book==null)
+        {
+            return "Book not exists, Use Add Book function to added in store";
+        }
+        try {
+            bookRepository.deleteById(bookId);
+            msg = "Book Deleted";
+        }catch(Exception ex)
+        {
+            return ex.getMessage();
+        }
+
+        return msg;
+    }
+
+
+    /**
+     * use for check the book model value if null, use back book entity value
+     * @param orignalValue current book entity value
+     * @param updateValue pass in value for book model
+     * @return string value
+     */
+    private String checkNull(String orignalValue, String updateValue)
+    {
+       return StringUtils.hasText(updateValue) ? updateValue: orignalValue;
+    }
 
     protected boolean checkBookExists(String bookName)
     {
