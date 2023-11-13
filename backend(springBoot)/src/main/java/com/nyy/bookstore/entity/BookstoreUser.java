@@ -15,6 +15,9 @@ public class BookstoreUser {
     @Column(name="USER_NAME",nullable = false,length = 256)
     private String userName;
 
+    @Column(name="PASSWORD",nullable = false,length = 256)
+    private String password;
+
     @Column(name="FIRST_NAME",nullable = true,length = 256)
     private String firstName;
 
@@ -33,8 +36,9 @@ public class BookstoreUser {
 
     }
 
-    public BookstoreUser(String userName, String firstName, String lastName, String address, Date dob) {
+    public BookstoreUser(String userName, String password,String firstName, String lastName, String address, Date dob) {
         this.userName = userName;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -83,6 +87,14 @@ public class BookstoreUser {
 
     public void setDob(Date dob) {
         this.dob = dob;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
